@@ -1,26 +1,52 @@
-from django.http import HttpResponse, HttpResponseRedirect
+from django.db.models import F
 from django.shortcuts import render
-from catalog.models import Product
-
-
-def home(request):
-    context = {
-        'object_list': Product.objects.all(),
-    }
-    return render(request, 'catalog/home.html', context)
+from django.urls import reverse_lazy
+from django.views.generic import ListView, CreateView, DetailView, UpdateView
+from catalog.models import Blog
+from pytils.translit import slugify
 
 
 def contacts(request):
     return render(request, 'catalog/contacts.html')
 
 
-# сохранение данных в бд
-def create(request):
-    if request.method == "POST":
-        product = Product()
-        product.name = request.POST.get("name")
-        product.description = request.POST.get("description")
-        product.category = request.POST.get("category")
-        product.price = request.POST.get("price")
-        product.save()
-    return HttpResponseRedirect("/")
+class BlogListView(ListView):
+    model = Blog
+
+    def get_queryset(self):
+        return super().get_queryset().filter(views=True)
+
+
+class BlogCreateView(CreateView):
+    model = Blog
+    fields = ('title', 'content')
+    prepopulated_fields = {"slug": ("title",)}
+    success_url = reverse_lazy('catalog:home')
+
+    def form_valid(self, form):
+        article = form.save(commit=False)
+        article.slug = slugify(article.title)
+        article.save()
+        return super().form_valid(form)
+
+
+class BlogDetailView(DetailView):
+    model = Blog
+
+    # Добавляем счетчик
+    def render_to_response(self, *args, **kwargs):
+        self.object.views = F('views') + 1
+        self.object.save()
+        return super().render_to_response(*args, **kwargs)
+
+
+class BlogUpdateView(UpdateView):
+    model = Blog
+    fields = '__all__'
+    success_url = reverse_lazy('catalog:home')
+
+    def form_valid(self, form):
+        article = form.save(commit=False)
+        article.slug = slugify(article.title)
+        article.save()
+        return super().form_valid(form)

@@ -1,0 +1,27 @@
+{% extends 'catalog/base.html' %}
+
+{% block content %}
+<h1>Статьи!</h1>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Название</th>
+            <th scope="col">Статья</th>
+            <th scope="col">Дата создания</th>
+            <th scope="col">Колличество просмотров</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          {% for object in object_list %}
+          <tr>
+              <td><a class="btn-outline-success" href="{% url 'catalog:detail' object.slug %}">{{ object.title }}</a></td>
+              <td>{{ object.content|slice:":100" }}</td>
+              <td>{{ object.date_of_creation }}</td>
+              <td>{{ object.views }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+    </table>
+<a class="p-2 btn btn-outline-primary" href='{% url "catalog:create" %}'>Добавить Статью</a>
+{% endblock %}

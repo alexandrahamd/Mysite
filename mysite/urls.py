@@ -23,7 +23,6 @@ from mysite import settings
 urlpatterns = [
     path('', include('catalog.urls', namespace='catalog')),
     path('admin/', admin.site.urls),
-    path("create/", views.create)
     ]
 
 if settings.DEBUG:
