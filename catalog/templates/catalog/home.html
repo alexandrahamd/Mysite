@@ -6,19 +6,19 @@
         {% csrf_token %}
         <p>
             <label>Введите имя</label><br>
-            <input type="text" name="name" />
+            <input type="text" class="form-control" name="name" />
         </p>
         <p>
             <label>Введите описание</label><br>
-            <input type="text" name="description" />
+            <input type="text" class="form-control" name="description" />
         </p>
         <p>
             <label>Введите категорию</label><br>
-            <input type="text" name="category" />
+            <input type="text" class="form-control" name="category" />
         </p>
         <p>
             <label>Введите цену</label><br>
-            <input type="number" name="price" />
+            <input type="number" class="form-control" name="price" />
         </p>
         <input type="submit" value="Сохранить" >
     </form>
@@ -39,7 +39,7 @@
           <td>{{ object.name }}</td>
           <td>{{ object.description|slice:":100" }}</td>
           <td>{{ object.category }}</td>
-          <td>{% mediapath object.image %}</td>
+          <td><img src ="{% mediapath object.image %}" width="10%" height="10%" /></td>
       </tr>
       {% endfor %}
     </tbody>
