@@ -13,8 +13,8 @@ def contacts(request):
 class BlogListView(ListView):
     model = Blog
 
-    def get_queryset(self):
-        return super().get_queryset().filter(views=True)
+    # def get_queryset(self):
+    #     return super().get_queryset().filter(views=True)
 
 
 class BlogCreateView(CreateView):
@@ -42,7 +42,7 @@ class BlogDetailView(DetailView):
 
 class BlogUpdateView(UpdateView):
     model = Blog
-    fields = '__all__'
+    fields = ('title', 'content')
     success_url = reverse_lazy('catalog:home')
 
     def form_valid(self, form):
