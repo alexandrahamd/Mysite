@@ -5,7 +5,7 @@
     <form method="POST" action="create/">
         {% csrf_token %}
         <p>
-            <label>Введите имя</label><br>
+            <label>Введите Название</label><br>
             <input type="text" class="form-control" name="name" />
         </p>
         <p>
@@ -26,20 +26,20 @@
   <table class="table">
     <thead>
       <tr>
-        <th scope="col">Имя</th>
+        <th scope="col">Название</th>
         <th scope="col">Описание</th>
         <th scope="col">Категория</th>
-        <th scope="col">Фотография</th>
+        <th scope="col">Версия</th>
 
       </tr>
     </thead>
     <tbody>
       {% for object in object_list %}
       <tr>
-          <td>{{ object.name }}</td>
+          <td><a class="btn-outline-success" href="{% url 'catalog:detail' object.id %}">{{ object.name }}</a></td>
           <td>{{ object.description|slice:":100" }}</td>
           <td>{{ object.category }}</td>
-          <td><img src ="{% mediapath object.image %}" width="10%" height="10%" /></td>
+          <td></td>
       </tr>
       {% endfor %}
     </tbody>
