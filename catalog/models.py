@@ -14,10 +14,19 @@ class Product(models.Model):
 
 
 class Version(models.Model):
-    product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+    STATUSE_ACTIVE = 'active'
+    STATUSE_INACTIVE = 'inactive'
+    STATUSES = (
+        ('active', 'активная'),
+        ('inactive', 'не активная'),
+    )
+
+    product_id = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='versions')
     number = models.IntegerField(default=0, blank=True, null=True)
     name = models.CharField(max_length=250, blank=True, null=True)
-    sign_of_version = models.CharField(max_length=250, blank=True, null=True)
+    sign_of_version = models.CharField(choices=STATUSES, default=STATUSE_INACTIVE, verbose_name='текущая версия',
+                                       max_length=15)
 
     def __str__(self):
         return self.name

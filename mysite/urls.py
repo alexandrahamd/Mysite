@@ -18,11 +18,12 @@ from django.contrib import admin
 from django.urls import include, path
 
 from catalog import views
-from mysite import settings
+from django.conf import settings
 
 urlpatterns = [
     path('', include('catalog.urls', namespace='catalog')),
     path('admin/', admin.site.urls),
+    path('users/', include('users.urls', namespace='users')),
     ]
 
 if settings.DEBUG:

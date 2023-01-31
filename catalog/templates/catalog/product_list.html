@@ -39,6 +39,7 @@
           <td><a class="btn-outline-success" href="{% url 'catalog:detail' object.id %}">{{ object.name }}</a></td>
           <td>{{ object.description|slice:":100" }}</td>
           <td>{{ object.category }}</td>
+          <td>{{ object.versions.get }}</td>
           <td></td>
       </tr>
       {% endfor %}
