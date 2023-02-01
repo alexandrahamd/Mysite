@@ -2,6 +2,8 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 import random
 
+from django.shortcuts import redirect
+
 
 def create_new_password():
     alphas = "abcdefghijklmnopqrstuvwxyz"
@@ -25,9 +27,14 @@ class User(AbstractUser):
     avatar = models.ImageField(upload_to='users/', verbose_name='аватарка', blank=True, null=True)
     phone = models.CharField(max_length=200, verbose_name='номер телефона', blank=True, null=True)
     country = models.CharField(max_length=100, verbose_name='страна', blank=True, null=True)
+    # token = models.CharField(max_length=15, verbose_name='Токен')
+    # token_created = models.DateTimeField(blank=True, null=True)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username', ]
+    REQUIRED_FIELDS = ['username']
 
     def __str__(self):
         return self.username
+
+    def get_absolute_url(self):
+        return redirect("catalog:home")
