@@ -2,6 +2,7 @@
 {% load catalog_extras %}
 
 {% block content %}
+    {% if user.is_authenticated %}
     <form method="POST" action="create/">
         {% csrf_token %}
         <p>
@@ -22,6 +23,7 @@
         </p>
         <input type="submit" value="Сохранить" >
     </form>
+    {% endif %}
 
   <table class="table">
     <thead>
@@ -30,6 +32,7 @@
         <th scope="col">Описание</th>
         <th scope="col">Категория</th>
         <th scope="col">Версия</th>
+          <th scope="col">Создана</th>
 
       </tr>
     </thead>
@@ -40,7 +43,7 @@
           <td>{{ object.description|slice:":100" }}</td>
           <td>{{ object.category }}</td>
           <td>{{ object.versions.get }}</td>
-          <td></td>
+          <td>{{ object.user }}</td>
       </tr>
       {% endfor %}
     </tbody>

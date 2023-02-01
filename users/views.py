@@ -1,39 +1,26 @@
-from django.contrib.auth.forms import UserCreationForm
+from django.conf import settings
 from django.contrib.auth.views import LoginView
 from django.core.mail import send_mail
-from django.shortcuts import render
-from django.urls import reverse
+from django.urls import reverse_lazy
 from django.views.generic import UpdateView, CreateView
-from django.conf import settings
-from users.forms import UserEditForm
+from django.contrib.auth.forms import UserCreationForm
+from users.forms import CustomEditUserForm
 from users.models import User
 
 
-class UserLoginView(LoginView):
+class CustomLoginView(LoginView):
     template_name = 'users/login.html'
-    # form_class = UserCreationForm
 
 
-class UserEditView(UpdateView):
-    model = User
-    template_name = 'users/profile.html'
-    form_class = UserEditForm
-    success_url = '/'
-
-    def get_object(self, queryset=None):
-        return self.request.user
-
-
-class UserRegisterView(CreateView):
+class CustomRegisterView(CreateView):
     model = User
     form_class = UserCreationForm
-    template_name = 'users/user_form.html'
-
 
     def form_valid(self, form):
         if form.is_valid():
             self.object = form.save()
             self.object.is_active = False
+            self.object.set_password(form.data.get('password'))
             self.object.email = form.cleaned_data['email']
             title = 'Проверка почты'
             body = 'Проверка почты для сайта'
@@ -45,8 +32,19 @@ class UserRegisterView(CreateView):
                     self.object.email,
                     fail_silently=False,
                 )
+                self.object.is_active = True
                 self.object.save()
             except:
                 Exception
             self.object.save()
         return super().form_valid(form)
+
+
+class UserEditProfileView(UpdateView):
+    model = User
+    template_name = 'users/profile.html'
+    form_class = CustomEditUserForm
+    success_url = reverse_lazy('catalog:home')
+
+    def get_object(self, queryset=None):
+        return self.request.user

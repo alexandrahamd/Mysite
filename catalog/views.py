@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.db.models import F
 from django.forms import inlineformset_factory
 from django.shortcuts import render
@@ -6,6 +7,7 @@ from django.views.generic import ListView, CreateView, DetailView, UpdateView, D
 from catalog.models import Blog, Product, Category, Version
 from pytils.translit import slugify
 from catalog.forms import ProductForm, VersionForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 def contacts(request):
@@ -58,7 +60,7 @@ class ProductListView(ListView):
     model = Product
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:home')
@@ -74,7 +76,7 @@ class ProductDetailView(DetailView):
     model = Product
 
 
-class ProductUpdateWithVersionView(UpdateView):
+class ProductUpdateWithVersionView(LoginRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:home')
@@ -94,7 +96,7 @@ class ProductUpdateWithVersionView(UpdateView):
         return context_data
 
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
     success_url = reverse_lazy('catalog:home')
 
