@@ -6,6 +6,7 @@ from django.views.generic import UpdateView, CreateView
 from django.contrib.auth.forms import UserCreationForm
 from users.forms import CustomEditUserForm
 from users.models import User
+from users.models import create_new_password
 
 
 class CustomLoginView(LoginView):
@@ -15,6 +16,11 @@ class CustomLoginView(LoginView):
 class CustomRegisterView(CreateView):
     model = User
     form_class = UserCreationForm
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.password = create_new_password()
+
 
     def form_valid(self, form):
         if form.is_valid():
