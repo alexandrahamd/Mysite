@@ -52,41 +52,6 @@ class CustomRegisterView(CreateView):
         return render(request, self.template_name, context)
 
 
-    # def form_valid(self, form):
-    #     if form.is_valid():
-    #         self.object = form.save()
-    #         self.object.is_active = False
-    #         self.object.set_password(form.data.get('password'))
-    #         self.object.email = form.cleaned_data['email']
-    #         title = 'Проверка почты'
-    #         body = 'Проверка почты для сайта'
-    #         try:
-    #             send_mail(
-    #                 title,
-    #                 body,
-    #                 settings.EMAIL_HOST_USER,
-    #                 self.object.email,
-    #                 fail_silently=False,
-    #             )
-    #             self.object.is_active = True
-    #             self.object.save()
-    #         except:
-    #             Exception
-    #         self.object.save()
-    #     return super().form_valid(form)
-    # def form_valid(self, form, self=None):
-    #     if form.is_valid():
-    #         self.object = form.save()
-    #         self.object.is_active = False
-    #         self.object.set_password(form.data.get('password'))
-    #         self.object.email = form.cleaned_data['email']
-    #         send_register_mail(
-    #             subject='Активация'
-    #             message=f'http/localhost:8080/users/activate/{self.object.token}'
-    #         )
-    #     return super().form_valid(form)
-
-
 class EmailVerify(View):
 
     def get(self, request, uidb64, token):
