@@ -142,6 +142,7 @@ LOGOUT_REDIRECT_URL = '/'
 
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
-EMAIL_HOST_USER = 'alexandrahamdaui@yandex.ru'
-EMAIL_HOST_PASSWORD = 'Zaqwer123!'
+# EMAIL_HOST_USER = 'alexandrahamdaui@yandex.ru'
+EMAIL_HOST_USER = 'pylina.alexandra@yandex.ru'
+EMAIL_HOST_PASSWORD = 'kisazfhsfkngvoez'
 EMAIL_USE_SSL = True
