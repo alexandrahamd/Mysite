@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import Group
 from django.db.models import F
 from django.forms import inlineformset_factory
 from django.shortcuts import render
@@ -7,7 +8,7 @@ from django.views.generic import ListView, CreateView, DetailView, UpdateView, D
 from catalog.models import Blog, Product, Category, Version
 from pytils.translit import slugify
 from catalog.forms import ProductForm, VersionForm
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
 
 
 def contacts(request):
@@ -76,11 +77,15 @@ class ProductDetailView(DetailView):
     model = Product
 
 
-class ProductUpdateWithVersionView(LoginRequiredMixin, UpdateView):
+class ProductUpdateWithVersionView(UserPassesTestMixin, UpdateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:home')
     template_name = 'catalog/product_with_version.html'
+
+    def test_func(self):
+        product = self.get_object()
+        return product.user == self.request.user or self.request.user.has_perm('catalog.change_product')
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)

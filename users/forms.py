@@ -33,6 +33,7 @@ class UserCreationForm(UserCreationForm):
 
 
 class UserAuthenticationForm(AuthenticationForm):
+    pass
 
     def clean(self):
         username = self.cleaned_data.get('username')

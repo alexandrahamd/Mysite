@@ -9,6 +9,14 @@ class Product(models.Model):
     category = models.CharField(max_length=100, blank=True, null=True)
     price = models.IntegerField(blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    publication_status = models.BooleanField(default=True)
+
+    class Meta:
+        permissions = [
+            ('Can_cancel_publication_status_product', 'Can cancel publication status product'),
+            ('Can_change_description_product', 'Can change description product'),
+            ('Can_change_category_product', 'Can change category product')
+        ]
 
     def __str__(self):
         return self.name

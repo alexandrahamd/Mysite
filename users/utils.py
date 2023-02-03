@@ -1,3 +1,4 @@
+import random
 from django.conf import settings
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
@@ -27,3 +28,18 @@ def send_email_for_verify(request, user):
         to=[user.email],
     )
     email.send()
+
+
+def create_new_password():
+    alphas = "abcdefghijklmnopqrstuvwxyz"
+    alphas_cap = alphas.upper()
+    numbers = "12345678901234567890123456"
+    special_chars = "!@#$%^&*()_+/!@#$%^&*()_+/"
+    password_characters = [alphas, alphas_cap, numbers, special_chars]
+    new_password = ""
+    for i in range(16):
+        n = random.randint(0, 3)
+        chars_used = password_characters[n]
+        char = chars_used[random.randint(0, 25)]
+        new_password += char
+    return new_password

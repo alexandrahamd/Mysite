@@ -19,37 +19,37 @@ User = get_user_model()
 
 class CustomLoginView(LoginView):
     template_name = 'users/login.html'
-    form_class = UserAuthenticationForm
+    # form_class = UserAuthenticationForm
 
 
 class CustomRegisterView(CreateView):
     template_name = 'users/user_form.html'
     form_class = CustomUserCreationForm
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.password = create_new_password()
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.password = create_new_password()
 
-    def get(self, request):
-        context = {
-            'form': CustomUserCreationForm()
-        }
-        return render(request, self.template_name, context)
-
-    def post(self, request):
-        form = CustomUserCreationForm(request.POST)
-
-        if form.is_valid():
-            form.save()
-            email = form.cleaned_data.get('email')
-            password = form.cleaned_data.get('password1')
-            user = authenticate(email=email, password=password)
-            send_email_for_verify(request, user)
-            return redirect('users:confirm_email')
-        context = {
-            'form': form
-        }
-        return render(request, self.template_name, context)
+    # def get(self, request):
+    #     context = {
+    #         'form': CustomUserCreationForm()
+    #     }
+    #     return render(request, self.template_name, context)
+    #
+    # def post(self, request):
+    #     form = CustomUserCreationForm(request.POST)
+    #
+    #     if form.is_valid():
+    #         form.save()
+    #         email = form.cleaned_data.get('email')
+    #         password = form.cleaned_data.get('password1')
+    #         user = authenticate(email=email, password=password)
+    #         send_email_for_verify(request, user)
+    #         return redirect('users:confirm_email')
+    #     context = {
+    #         'form': form
+    #     }
+    #     return render(request, self.template_name, context)
 
 
 class EmailVerify(View):
