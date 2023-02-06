@@ -9,11 +9,15 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
+import os
 from pathlib import Path
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+env_path = BASE_DIR/'.env'
+load_dotenv(dotenv_path=env_path)
 
 
 # Quick-start development settings - unsuitable for production
@@ -142,7 +146,17 @@ LOGOUT_REDIRECT_URL = '/'
 
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
-# EMAIL_HOST_USER = 'alexandrahamdaui@yandex.ru'
-EMAIL_HOST_USER = 'pylina.alexandra@yandex.ru'
-EMAIL_HOST_PASSWORD = 'kisazfhsfkngvoez'
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_USE_SSL = True
+
+CACHE_ENABLED = os.getenv('CACHE_ENABLED')
+
+# if CACHE_ENABLED:
+#     CACHES = {
+#         'default':
+#             {
+#                 'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+#                 'LOCATION': 'redis://127.0.0.1:6379'
+#             }
+#     }

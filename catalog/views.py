@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
+from django.core.cache import cache
 from django.db.models import F
 from django.forms import inlineformset_factory
 from django.shortcuts import render
@@ -9,6 +10,7 @@ from catalog.models import Blog, Product, Category, Version
 from pytils.translit import slugify
 from catalog.forms import ProductForm, VersionForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
+from django.conf import settings
 
 
 def contacts(request):
@@ -104,4 +106,17 @@ class ProductUpdateWithVersionView(UserPassesTestMixin, UpdateView):
 class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
     success_url = reverse_lazy('catalog:home')
+
+
+class CategoryListView(ListView):
+    model = Category
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        # context_data['category'] = Category.cache_subjects()
+        context_data['category'] = Category.object.all()
+        return context_data
+
+
+
 

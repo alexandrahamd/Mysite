@@ -5,6 +5,7 @@
     {% if user.is_authenticated %}
     <form method="POST" action="create/">
         {% csrf_token %}
+        <h2>Список продуктов</h2>
         <p>
             <label>Введите Название</label><br>
             <input type="text" class="form-control" name="name" />
@@ -46,6 +47,12 @@
           <td>{{ object.user }}</td>
       </tr>
       {% endfor %}
+      <h2>Список существующих категорий</h2>
+    {{ for item in category }}
+        {{ item.name }}
+        {{ item.description }}
+    {% endfor %}
+
     </tbody>
   </table>
 {% endblock %}

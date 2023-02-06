@@ -1,0 +1,22 @@
+{% extends 'catalog/base.html' %}
+{% load catalog_extras %}
+
+{% block content %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Название</th>
+        <th scope="col">Описание</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      {% for object in object_list %}
+      <tr>
+          <td><a class="btn-outline-success">{{ object.name }}</a></td>
+          <td>{{ object.description|slice:":100" }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
