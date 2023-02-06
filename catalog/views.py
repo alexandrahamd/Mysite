@@ -113,8 +113,7 @@ class CategoryListView(ListView):
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
-        # context_data['category'] = Category.cache_subjects()
-        context_data['category'] = Category.object.all()
+        context_data['category'] = Category.cache_subjects()
         return context_data
 
 
