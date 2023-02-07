@@ -152,11 +152,11 @@ EMAIL_USE_SSL = True
 
 CACHE_ENABLED = os.getenv('CACHE_ENABLED')
 
-# if CACHE_ENABLED:
-#     CACHES = {
-#         'default':
-#             {
-#                 'BACKEND': 'django.core.cache.backends.redis.RedisCache',
-#                 'LOCATION': 'redis://127.0.0.1:6379'
-#             }
-#     }
+if CACHE_ENABLED:
+    CACHES = {
+        'default':
+            {
+                'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+                'LOCATION': 'redis://127.0.0.1:6379'
+            }
+    }
