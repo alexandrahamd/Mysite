@@ -1,6 +1,3 @@
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import Group
-from django.core.cache import cache
 from django.db.models import F
 from django.forms import inlineformset_factory
 from django.shortcuts import render
@@ -11,6 +8,7 @@ from pytils.translit import slugify
 from catalog.forms import ProductForm, VersionForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
 from django.conf import settings
+from catalog.utils import cache_category
 
 
 def contacts(request):
@@ -19,9 +17,6 @@ def contacts(request):
 
 class BlogListView(ListView):
     model = Blog
-
-    # def get_queryset(self):
-    #     return super().get_queryset().filter(views=True)
 
 
 class BlogCreateView(CreateView):
@@ -61,6 +56,13 @@ class BlogUpdateView(UpdateView):
 
 class ProductListView(ListView):
     model = Product
+    print(Category.objects.all)
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        # context_data['category'] = Category.objects.all()
+        context_data['category'] = cache_category()
+        return context_data
 
 
 class ProductCreateView(LoginRequiredMixin, CreateView):
@@ -111,10 +113,10 @@ class ProductDeleteView(LoginRequiredMixin, DeleteView):
 class CategoryListView(ListView):
     model = Category
 
-    def get_context_data(self, **kwargs):
-        context_data = super().get_context_data(**kwargs)
-        context_data['category'] = Category.cache_subjects()
-        return context_data
+    # def get_context_data(self, **kwargs):
+    #     context_data = super().get_context_data(**kwargs)
+    #     context_data['category'] = Category.cache_subjects()
+    #     return context_data
 
 
 

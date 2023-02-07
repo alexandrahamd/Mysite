@@ -5,7 +5,6 @@
     {% if user.is_authenticated %}
     <form method="POST" action="create/">
         {% csrf_token %}
-        <h2>Список продуктов</h2>
         <p>
             <label>Введите Название</label><br>
             <input type="text" class="form-control" name="name" />
@@ -25,7 +24,10 @@
         <input type="submit" value="Сохранить" >
     </form>
     {% endif %}
+<br>
+<br>
 
+        <h2>Список продуктов</h2>
   <table class="table">
     <thead>
       <tr>
@@ -47,12 +49,26 @@
           <td>{{ object.user }}</td>
       </tr>
       {% endfor %}
-      <h2>Список существующих категорий</h2>
-    {{ for item in category }}
-        {{ item.name }}
-        {{ item.description }}
-    {% endfor %}
+    </tbody>
+  </table>
+<br>
+<br>
+          <h3>Список существующих категорий</h3>
+              <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Название</th>
+                        <th scope="col">Описание</th>
 
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for object in category %}
+                      <tr>
+                          <td><a class="btn-outline-success">{{ object.name }}</a></td>
+                          <td>{{ object.description|slice:":100" }}</td>
+                      </tr>
+      {% endfor %}
     </tbody>
   </table>
 {% endblock %}

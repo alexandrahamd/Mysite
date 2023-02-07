@@ -1,13 +1,12 @@
 from django.conf import settings
 from django.core.cache import cache
-
-from Mysite.catalog.models import Category
+from catalog.models import Category
 
 
 def cache_category():
-    queryset = Category.object.all()
+    queryset = Category.objects.all()
     if settings.CACHE_ENABLED:
-        key = f'Category_all:{Category.object.all()}'
+        key = f'Category_all:{Category.objects.all()}'
         cache_data = cache.get(key)
         if cache_data is None:
             cache_data = queryset
